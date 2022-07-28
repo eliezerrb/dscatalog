@@ -1,6 +1,7 @@
 package com.eliezerrb.dscatalog.services;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,4 +37,14 @@ public class CategoryService {
 		*/
 		
 	}
+
+	@Transactional(readOnly = true)
+	public CategoryDTO findById(Long id) {
+		// Optional - abordagem desde o java 8 para evitar trabalhar com valor nulo
+		Optional<Category> obj = repository.findById(id);
+		Category entity = obj.get();
+		return new CategoryDTO(entity);
+	}
+	
+	
 }
