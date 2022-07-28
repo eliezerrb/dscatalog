@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eliezerrb.dscatalog.dto.CategoryDTO;
 import com.eliezerrb.dscatalog.entities.Category;
 import com.eliezerrb.dscatalog.repositories.CategoryRepository;
+import com.eliezerrb.dscatalog.services.exceptions.EntityNotFoundException;
 
 @Service
 public class CategoryService {
@@ -41,8 +42,9 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
 		// Optional - abordagem desde o java 8 para evitar trabalhar com valor nulo
+		// orElseThrow - se o objeto não existir lança uma exception
 		Optional<Category> obj = repository.findById(id);
-		Category entity = obj.get();
+		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
 		return new CategoryDTO(entity);
 	}
 	
