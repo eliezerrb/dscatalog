@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.eliezerrb.dscatalog.dto.CategoryDTO;
 import com.eliezerrb.dscatalog.entities.Category;
 import com.eliezerrb.dscatalog.repositories.CategoryRepository;
-import com.eliezerrb.dscatalog.services.exceptions.EntityNotFoundException;
+import com.eliezerrb.dscatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CategoryService {
@@ -44,7 +46,7 @@ public class CategoryService {
 		// Optional - abordagem desde o java 8 para evitar trabalhar com valor nulo
 		// orElseThrow - se o objeto não existir lança uma exception
 		Optional<Category> obj = repository.findById(id);
-		Category entity = obj.orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+		Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
 		return new CategoryDTO(entity);
 	}
 
@@ -55,6 +57,20 @@ public class CategoryService {
 		entity = repository.save(entity);
 		return new CategoryDTO(entity);
 		
+	}
+
+	@Transactional
+	public CategoryDTO update(Long id, CategoryDTO dto) {
+		// getReferenceById - Instanciar obj provisório com os dados - usa para atualizar o BD ao invez do findById(id)
+		try {
+			Category entity = repository.getReferenceById(id);
+			entity.setName(dto.getName());
+			entity = repository.save(entity);
+			return new CategoryDTO(entity);
+		} 
+		catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundException("Id not found" + id);
+		}
 	}
 	
 	
