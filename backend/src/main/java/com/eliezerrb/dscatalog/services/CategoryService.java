@@ -1,14 +1,14 @@
 package com.eliezerrb.dscatalog.services;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,20 +27,11 @@ public class CategoryService {
 	//@Transactional - Framework trata como uma transação do banco de dados ou faz tudo ou não faz nada
 	//readOnly = true - evita lock no DB só para ler dados
 	@Transactional(readOnly = true)
-	public List<CategoryDTO> findAll(){
-		List<Category> list = repository.findAll();
+	public Page<CategoryDTO> findAllPaged(PageRequest pageRequest){
+		Page<Category> list = repository.findAll(pageRequest);
 		
 		// Melhor forma de fazer expressão lambda para cada objeto x da lista de categoria entidade da um new CategoryDTO passando a categoria e faz a conversão
-		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
-		
-		// Segunda forma de converter a lista de Category entidade para lista de CategoryDTO
-		/*List<CategoryDTO> listDTO = new ArrayList<>();
-		for (Category cat : list) {
-			listDTO.add(new CategoryDTO(cat));
-		}
-		
-		return listDto;
-		*/
+		return list.map(x -> new CategoryDTO(x));
 		
 	}
 
