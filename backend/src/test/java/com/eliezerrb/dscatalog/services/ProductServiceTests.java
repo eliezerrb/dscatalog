@@ -1,12 +1,16 @@
 package com.eliezerrb.dscatalog.services;
 
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -32,10 +36,11 @@ public class ProductServiceTests {
 		nonExistingId = 1000L;
 				
 		// Quando chamado o repository.deleteById Mockado de id existente  o metodo não faz nada
-		Mockito.doNothing().when(repository).deleteById(ExistingId);
+		// Se apagar o Mockito e fazer o import da certo porque fica estático
+		doNothing().when(repository).deleteById(ExistingId);
 		
 		// Quando chamado o repository.deleteById Mockado de id não existente o metodo retorna exception
-		Mockito.doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
+		doThrow(EmptyResultDataAccessException.class).when(repository).deleteById(nonExistingId);
 	}
 	
 	@Test
@@ -46,6 +51,6 @@ public class ProductServiceTests {
 		});
 		
 		// Verifica se o metodo deleteById foi chamado nessa ação do teste
-		Mockito.verify(repository, Mockito.times(1)).deleteById(ExistingId);
+		verify(repository, times(1)).deleteById(ExistingId);
 	}
 }
