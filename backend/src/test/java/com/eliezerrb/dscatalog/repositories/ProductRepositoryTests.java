@@ -61,4 +61,25 @@ public class ProductRepositoryTests {
 		});
 	}
 	
+	
+	@Test
+	public void findByIdShouldReturnNonEmptyOptionalProductWhenIdExists() {
+				
+		Optional<Product> result = repository.findById(existingId);
+		
+		// ispresent testa se existe obj dentro do optional;
+		Assertions.assertTrue(result.isPresent());
+		
+	}
+	
+	@Test
+	public void findByIdShouldReturnEmptyOptionalProductWhenIdDoesNotExists() {
+				
+		Optional<Product> result = repository.findById(nonExistingId);
+		
+		// ispresent testa se existe obj dentro do optional;
+		Assertions.assertTrue(result.isEmpty());
+		
+	}
+	
 }
