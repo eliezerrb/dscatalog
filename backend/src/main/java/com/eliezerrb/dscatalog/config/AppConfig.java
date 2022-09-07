@@ -1,5 +1,6 @@
 package com.eliezerrb.dscatalog.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -8,6 +9,9 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 @Configuration
 public class AppConfig {
+	
+	@Value("${jwt.secret}")
+	private String jwtSecret;
 	
 	/* @Bean - anotação de método, ao colocar o @Bean encima do método eu estou dizendo que a instancia new BCryptPasswordEncoder();
 		vai ser um componente gerenciado pelo Springboot, vou poder injetar ele em outras classes em outro componentes
@@ -22,7 +26,7 @@ public class AppConfig {
 	@Bean
 	public JwtAccessTokenConverter accessTokenConverter() {
 		JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();
-		tokenConverter.setSigningKey("MY-JWT-SECRET");
+		tokenConverter.setSigningKey(jwtSecret);
 		return tokenConverter;
 	}
 
