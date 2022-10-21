@@ -15,7 +15,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	// : - Referencia o parâmetro que está no metódo, ex  :category
 	// INNER JOIN - Porque Product tem um relacionamento @ManyToMany com Category se fosse @ManyToOne funcionaria com o =
 	// IN - Porque Product tem um relacionamento @ManyToMany com Category
-	@Query("SELECT obj FROM	Product obj INNER JOIN obj.categories cats WHERE "
-			+ ":category IN cats")
+	// DISTINCT - Para não haver repetição de produto, se ele tiver em mais de uma categoria
+	@Query("SELECT DISTINCT obj FROM Product obj INNER JOIN obj.categories cats WHERE "
+			+ "(:category IS NULL OR :category IN cats)")
 	Page<Product> find(Category category, Pageable pageable);
 }
