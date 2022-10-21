@@ -30,6 +30,20 @@ public class ProductService {
 	@Autowired
 	private CategoryRepository categoryRepository;
 
+	// Com categoria
+	@Transactional(readOnly = true)
+	public Page<ProductDTO> findAllPaged(Pageable pageable, Long categoryId){
+		
+		// Consulta JPA no repository é bom instanciar o obj category e não só passar o ID
+		// Se for 0 vai dar problema, validei na expressão condicional ternária
+		Category category = (categoryId == 0) ? null : categoryRepository.getReferenceById(categoryId);
+		
+		Page<Product> list = repository.find(category, pageable);
+		return list.map(x -> new ProductDTO(x));
+		
+	}
+	
+	// Sem Categoria, criei para não dar erro na IDE devido a ter teste automatizada sem categoria 
 	@Transactional(readOnly = true)
 	public Page<ProductDTO> findAllPaged(Pageable pageable){
 		Page<Product> list = repository.findAll(pageable);

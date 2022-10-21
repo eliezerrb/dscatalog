@@ -20,8 +20,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	@Autowired
 	private Environment env;
 	
-	
-	
 	@Autowired
 	private JwtTokenStore tokenStore;
 	
