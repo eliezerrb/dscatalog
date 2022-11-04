@@ -1,5 +1,7 @@
 package com.eliezerrb.dscatalog.repositories;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,8 +20,9 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	// DISTINCT - Para não haver repetição de produto, se ele tiver em mais de uma categoria
 	// LOWER - Convertendo para minúscula 
 	// CONCAT - Concatenar
+	// COALESCE - Adaptação ao valor nulo(mais compátivel com os banco de dados) por ser uma lista de categories precisa dessa função
 	@Query("SELECT DISTINCT obj FROM Product obj INNER JOIN obj.categories cats WHERE "
-			+ "(:category IS NULL OR :category IN cats) AND "
-			+ "(LOWER(obj.name) LIKE LOWER(CONCAT ('%', :name, '%')) )")
-	Page<Product> find(Category category, String name, Pageable pageable);
+			+ "(COALESCE(:categories) IS NULL OR cats IN :categories) AND "
+			+ "(:name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%',:name,'%'))) ")
+	Page<Product> find(List<Category> categories, String name, Pageable pageable);
 }

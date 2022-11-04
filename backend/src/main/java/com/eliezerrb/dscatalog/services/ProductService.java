@@ -1,5 +1,7 @@
 package com.eliezerrb.dscatalog.services;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
@@ -36,9 +38,10 @@ public class ProductService {
 		
 		// Consulta JPA no repository é bom instanciar o obj category e não só passar o ID
 		// Se for 0 vai dar problema, validei na expressão condicional ternária
-		Category category = (categoryId == 0) ? null : categoryRepository.getReferenceById(categoryId);
+		// Arrays.asList: para criar a lista com o getReferenceById
+		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getReferenceById(categoryId));
 		
-		Page<Product> list = repository.find(category, name, pageable);
+		Page<Product> list = repository.find(categories, name, pageable);
 		return list.map(x -> new ProductDTO(x));
 		
 	}
