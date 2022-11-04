@@ -16,7 +16,10 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	// INNER JOIN - Porque Product tem um relacionamento @ManyToMany com Category se fosse @ManyToOne funcionaria com o =
 	// IN - Porque Product tem um relacionamento @ManyToMany com Category
 	// DISTINCT - Para não haver repetição de produto, se ele tiver em mais de uma categoria
+	// LOWER - Convertendo para minúscula 
+	// CONCAT - Concatenar
 	@Query("SELECT DISTINCT obj FROM Product obj INNER JOIN obj.categories cats WHERE "
-			+ "(:category IS NULL OR :category IN cats)")
-	Page<Product> find(Category category, Pageable pageable);
+			+ "(:category IS NULL OR :category IN cats) AND "
+			+ "(LOWER(obj.name) LIKE LOWER(CONCAT ('%', :name, '%')) )")
+	Page<Product> find(Category category, String name, Pageable pageable);
 }

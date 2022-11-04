@@ -33,12 +33,14 @@ public class ProductResource {
 	@GetMapping
 	public ResponseEntity<Page<ProductDTO>> findAll(
 			Pageable pageable,
-			@RequestParam(value = "categoryId", defaultValue = "0") Long categoryId
+			@RequestParam(value = "categoryId", defaultValue = "0") Long categoryId,
+			@RequestParam(value = "name", defaultValue = "") String name
 			){
 		
-		//PARAMETROS: page, size, sort
+		// PARAMETROS: page, size, sort
 		
-		Page<ProductDTO> list = service.findAllPaged(pageable, categoryId);
+		// trim(): para remover espaço em branco
+		Page<ProductDTO> list = service.findAllPaged(pageable, categoryId, name.trim());
 		return ResponseEntity.ok().body(list);
 		
 	}
