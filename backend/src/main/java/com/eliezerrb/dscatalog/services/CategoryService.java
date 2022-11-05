@@ -57,7 +57,7 @@ public class CategoryService {
 	public CategoryDTO update(Long id, CategoryDTO dto) {
 		// getReferenceById - Instanciar obj provisório com os dados - usa para atualizar o BD ao invez do findById(id)
 		try {
-			Category entity = repository.getReferenceById(id);
+			Category entity = repository.getOne(id);
 			entity.setName(dto.getName());
 			entity = repository.save(entity);
 			return new CategoryDTO(entity);

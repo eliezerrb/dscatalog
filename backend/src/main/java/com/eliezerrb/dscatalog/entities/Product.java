@@ -3,7 +3,6 @@ package com.eliezerrb.dscatalog.entities;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -28,9 +27,7 @@ public class Product implements Serializable{
 	
 	private String name;
 	
-	// Macete para maper no BD não como varchar, mas como o TEXT(tipo que aceita mais caracteres)
 	@Column(columnDefinition = "TEXT")
-	
 	private String description;
 	private Double price;
 	private String imgUrl;
@@ -38,26 +35,11 @@ public class Product implements Serializable{
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant date;
 	
-	/*
-	 *  Usar Set(conjunto) ao invez de List, pois o Set não aceita repetição, 
-	 *  ex: o mesmo produto não pode ter a mesma categoria mais de uma vez, 
-	 *  devido a terceira tabela do relacionamento muitos para muitos 
-	 */
-	
-	/*
-	 * Associação com categoria 
-	 * @JoinTable(tabela que faz a associação entre as duas entidades)
-	 * name(nome da tabela que faz o relacionamento)
-	 * joinColumns(vai dizer as duas chaves estrangeiras)
-	 * @JoinColumn(vai estabelecer qual vai ser a chave estrangeira relacionada a classe onde estou, ex produto)
-	 * inverseJoinColumns(vai dizer a chave estrangeira que faz o outro lado da assossiação muitos para muitos)
-	 */
-	
 	@ManyToMany
 	@JoinTable(name = "tb_product_category",
 			joinColumns = @JoinColumn(name = "product_id"),
 			inverseJoinColumns = @JoinColumn(name = "category_id"))
-	Set<Category> categories = new HashSet<>();
+	private Set<Category> categories = new HashSet<>();
 
 	public Product() {
 		
@@ -123,10 +105,13 @@ public class Product implements Serializable{
 	public Set<Category> getCategories() {
 		return categories;
 	}
-
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id);
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
 	@Override
@@ -138,9 +123,12 @@ public class Product implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Product other = (Product) obj;
-		return Objects.equals(id, other.id);
-	}
-	
-	
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}	
 	
 }
