@@ -71,11 +71,11 @@ public class ProductServiceTests {
 		Mockito.when(repository.findById(ExistingId)).thenReturn(Optional.of(product));
 		Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
 		
-		Mockito.when(repository.getReferenceById(ExistingId)).thenReturn(product);
-		Mockito.when(repository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
+		Mockito.when(repository.getOne(ExistingId)).thenReturn(product);
+		Mockito.when(repository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
 		
-		Mockito.when(categoryRepository.getReferenceById(ExistingId)).thenReturn(category);
-		Mockito.when(categoryRepository.getReferenceById(nonExistingId)).thenThrow(EntityNotFoundException.class);
+		Mockito.when(categoryRepository.getOne(ExistingId)).thenReturn(category);
+		Mockito.when(categoryRepository.getOne(nonExistingId)).thenThrow(EntityNotFoundException.class);
 				
 		// Quando chamado o repository.deleteById Mockado de id existente  o metodo não faz nada
 		// Se apagar o Mockito e fazer o import da certo porque fica estático

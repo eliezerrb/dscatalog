@@ -34,16 +34,11 @@ public class ProductService {
 
 	// Com categoria
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPaged(Pageable pageable, Long categoryId, String name){
-		
-		// Consulta JPA no repository é bom instanciar o obj category e não só passar o ID
-		// Se for 0 vai dar problema, validei na expressão condicional ternária
-		// Arrays.asList: para criar a lista com o getReferenceById
-		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getReferenceById(categoryId));
-		
-		Page<Product> list = repository.find(categories, name, pageable);
-		return list.map(x -> new ProductDTO(x));
-		
+	public Page<ProductDTO> findAllPaged2(Long categoryId, String name, Pageable pageable) {
+		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getOne(categoryId));
+		Page<Product> page = repository.find(categories, name, pageable);
+		repository.findProductsWithCategories(page.getContent());
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 	}
 	
 	// Sem Categoria, criei para não dar erro na IDE devido a ter teste automatizada sem categoria 
@@ -74,7 +69,7 @@ public class ProductService {
 	@Transactional
 	public ProductDTO update(Long id, ProductDTO dto) {
 		try {
-			Product entity = repository.getReferenceById(id);
+			Product entity = repository.getOne(id);
 			copyDtoToEntity(dto, entity);
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
@@ -109,7 +104,7 @@ public class ProductService {
 		
 		entity.getCategories().clear();
 		for (CategoryDTO catDto : dto.getCategories()) {
-			Category category = categoryRepository.getReferenceById(catDto.getId());
+			Category category = categoryRepository.getOne(catDto.getId());
 			entity.getCategories().add(category);
 		}
 	}
