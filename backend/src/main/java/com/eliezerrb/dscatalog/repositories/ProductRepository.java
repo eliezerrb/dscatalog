@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>{
 	// CONCAT - Concatenar
 	// COALESCE - Adaptação ao valor nulo(mais compátivel com os banco de dados) por ser uma lista de categories precisa dessa função
 	@Query("SELECT DISTINCT obj FROM Product obj INNER JOIN obj.categories cats WHERE "
-			+ "(COALESCE(:categories) IS NULL OR cats IN :categories) AND "
+			+ "(:categories IS NULL OR cats IN :categories) AND "
 			+ "(:name = '' OR LOWER(obj.name) LIKE LOWER(CONCAT('%',:name,'%'))) ")
 	Page<Product> find(List<Category> categories, String name, Pageable pageable);
 }
