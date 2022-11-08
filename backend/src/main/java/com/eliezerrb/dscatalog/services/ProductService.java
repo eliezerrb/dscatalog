@@ -40,9 +40,11 @@ public class ProductService {
 		// Se for 0 vai dar problema, validei na expressão condicional ternária
 		// Arrays.asList: para criar a lista com o getReferenceById
 		List<Category> categories = (categoryId == 0) ? null : Arrays.asList(categoryRepository.getReferenceById(categoryId));
+		Page<Product> page = repository.find(categories, name, pageable);
 		
-		Page<Product> list = repository.find(categories, name, pageable);
-		return list.map(x -> new ProductDTO(x));
+		// page.getContent() converte página para lista, criado a linha abaixo para resolver o problema N+1 consultas quando varre o DTO buscando a categoria do produto 
+		repository.findProductsWithCategories(page.getContent());
+		return page.map(x -> new ProductDTO(x, x.getCategories()));
 		
 	}
 	
