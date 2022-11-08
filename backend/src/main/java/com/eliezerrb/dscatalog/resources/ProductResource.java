@@ -40,7 +40,7 @@ public class ProductResource {
 		// PARAMETROS: page, size, sort
 		
 		// trim(): para remover espaço em branco
-		Page<ProductDTO> list = service.findAllPaged(pageable, categoryId, name.trim());
+		Page<ProductDTO> list = service.findAllPaged(categoryId, name.trim(), pageable);
 		return ResponseEntity.ok().body(list);
 		
 	}

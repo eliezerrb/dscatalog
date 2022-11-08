@@ -34,7 +34,7 @@ public class ProductService {
 
 	// Com categoria
 	@Transactional(readOnly = true)
-	public Page<ProductDTO> findAllPaged(Pageable pageable, Long categoryId, String name){
+	public Page<ProductDTO> findAllPaged(Long categoryId, String name, Pageable pageable){
 		
 		// Consulta JPA no repository é bom instanciar o obj category e não só passar o ID
 		// Se for 0 vai dar problema, validei na expressão condicional ternária
