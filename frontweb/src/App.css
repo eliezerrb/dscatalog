@@ -9,3 +9,9 @@ h1, h2, h3, h4, h5, h6 {
     /*Margim ao final*/
     margin-bottom: 0;
 }
+
+a, a:hover {
+     /*Remover sublinhado e não ter cor definida*/
+    text-decoration: none;
+    color: unset;
+}
