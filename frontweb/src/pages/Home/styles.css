@@ -33,9 +33,9 @@
 
 .home-content-container p {
   width: 260px;
-  color: #9E9E9E;
-  font-size: 0.6em; 
-  margin-bottom: 30px; 
+  color: #9e9e9e;
+  font-size: 0.6em;
+  margin-bottom: 30px;
 }
 
 .home-image-container {
@@ -47,4 +47,64 @@
   /*Imagem vai se adequar ao container que ela estiver */
   width: 100%;
   height: auto;
+}
+
+/*Para a responsividade comportamento diferenciado a partir de um breakpoint*/
+@media (min-width: 576px) {
+  .home-container {
+    font-size: 40px;
+  }
+
+  .home-content-container h1 {
+    width: 506px;
+    margin-bottom: 20px;
+  }
+
+  .home-content-container p {
+    width: 506px;
+    margin-bottom: 20px;
+  }
+
+  .home-content-container button {
+    width: 506px;
+  }
+
+  .home-image-container svg {
+    width: 506px;
+  }
+}
+
+@media (min-width: 768px) {
+  .home-image-container {
+    padding: 100px 20px;
+  }
+
+  .home-content-container {
+    padding: 20px 20px 100px 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  .home-container {
+    padding: 40px;
+    font-size: 55px;
+  }
+
+  .home-image-container {
+    padding: 125px 20px;
+  }
+
+  .home-content-container {
+    padding: 20px 20px 150px 20px;
+  }
+
+  .home-content-container h1 {
+    width: 700px;
+    margin-bottom: 26px;
+  }
+
+  .home-content-container p {
+    width: 700px;
+    margin-bottom: 47px;
+  }
 }
