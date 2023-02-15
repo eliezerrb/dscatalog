@@ -2,6 +2,8 @@ import './styles.css';
 import '@popperjs/core';
 import 'bootstrap/js/src/collapse';
 
+import { Link, NavLink } from 'react-router-dom';
+
 const Navbar = () => {
   return (
     // bg-primary: cor primária do estilo (bootstrap) personalizado
@@ -10,10 +12,10 @@ const Navbar = () => {
     // collapse navbar-collapse: Menu sumir quando a tela é pequena (bootstrap)
     // navbar-dark ou navbar-light: especificar se a nav é clara ou escura (bootstrap)
     <nav className="navbar navbar-expand-md navbar-dark bg-primary main-nav">
-      <div className="container-fluid">
-        <a href="link" className="nav-logo-text">
+      <div className="container-fluid"> {/* previne quebra de linha entre logo e itens */}
+        <Link to="/" className="nav-logo-text">
           <h4>DS Catalog</h4>
-        </a>
+        </Link>
 
         {/* Botão do menu hamburguer */}
         <button
@@ -31,15 +33,15 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="dscatalog-navbar">
           <ul className="navbar-nav offset-md-2 main-menu">
             <li>
-              <a href="link" className="active">
-                HOME
-              </a>
+              {/* exact - para desmarcar o home quando estiver em outra página*/}
+              {/* activeClassName - Quando estiver na rota aplique o css active*/}
+              <NavLink to="/" activeClassName="active" exact>HOME</NavLink>
             </li>
             <li>
-              <a href="link">CATÁLOGO</a>
+              <NavLink to="/products" activeClassName="active">CATÁLOGO</NavLink>
             </li>
             <li>
-              <a href="link">ADMIN</a>
+              <NavLink to="/admin" activeClassName="active">ADMIN</NavLink>
             </li>
           </ul>
         </div>
