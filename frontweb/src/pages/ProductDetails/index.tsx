@@ -1,12 +1,14 @@
 import { ReactComponent as ArrowIcon } from 'assets/images/arrow.svg';
 import ProductPrice from 'components/ProductPrice';
 
+import './styles.css';
+
 const ProductDetails = () => {
     // row - bootstrap
     // col-xl-6 - bootstrap, a partir de 1200px tela se divide em dois(6 metade de 12)
     return (
         <div className="product-datails-container">
-            <div className="product-datails-card">
+            <div className="base-card product-details-card">
                 <div className="goback-container">
                     <ArrowIcon />
                     <h2>VOLTAR</h2>
