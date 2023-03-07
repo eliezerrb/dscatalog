@@ -2,6 +2,8 @@ import ProductCard from 'components/ProductCard';
 import { Link } from 'react-router-dom';
 import { Product } from 'types/product';
 
+import './styles.css';
+
 const Catalog = () => {
   // Provisório, buscar da API depois
   const product: Product = {
@@ -35,7 +37,11 @@ const Catalog = () => {
       {/* col-lg-4: Large ≥992px, sempre divide pela quantidade que deseja por linha ex: 12/3=3 são 3 card por linha(bootstrap) */}
       {/* col-xl-3: Extra large ≥1200px, 4 card por linha(bootstrap) */}
 
-      <div className="container my-4">
+      <div className="container my-4 catalog-container">
+        <div className="row catalog-title-container">
+          <h1>Catálogo de produtos</h1>
+        </div>
+
         <div className="row">
           <div className="col-sm-6 col-lg-4 col-xl-3">
             <Link to="/products/1">
