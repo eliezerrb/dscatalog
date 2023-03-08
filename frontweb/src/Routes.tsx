@@ -3,7 +3,7 @@ import Admin from 'pages/Admin';
 import Catalog from 'pages/Catalog';
 import Home from 'pages/Home';
 import ProductDetails from 'pages/ProductDetails';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 
 //  <Route path="/"> - Rota padrão
 
@@ -20,6 +20,9 @@ const Routes = () => (
       <Route path="/products/:productId">
         <ProductDetails />
       </Route>
+      {/* Redirecionamento - se cair na rota /admin vai para /admin/products */}
+       {/* exact porque o admin está contido em outra rota */}
+      <Redirect from="/admin" to="/admin/products" exact />
       <Route path="/admin">
         <Admin />
       </Route>
