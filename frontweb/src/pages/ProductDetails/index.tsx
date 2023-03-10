@@ -1,26 +1,37 @@
 import { ReactComponent as ArrowIcon } from 'assets/images/arrow.svg';
 import axios from 'axios';
 import ProductPrice from 'components/ProductPrice';
+import { type } from 'os';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Product } from 'types/product';
 import { BASE_URL } from 'util/requests';
 
 import './styles.css';
 
+type UrlParams = {
+  productId: string;
+}
+
 const ProductDetails = () => {
+
+  // Capturar parâmetros de URL
+  const { productId } = useParams<UrlParams>();
+
+
   // product - nome do estado
   // setProduct - função para atualizar o valor do estado
   // Product - tipo do estado
   const [product, setProduct] = useState<Product>();
 
-  // useEffect - () => {} função que você quer executar(executa quando o componente for montado por padrão), depois lista de dependencia(objs para monitorar)
+  // useEffect - () => {} função que você quer executar(executa quando o componente for montado por padrão), depois lista de dependencia(objs para monitorar), pode ser executado novamente quando um dos objs for alterado 
   useEffect(() => {
-    axios.get(BASE_URL + '/products/1').then((response) => {
+    axios.get(`${BASE_URL}/products/${productId}`)
+    .then((response) => {
       // Atribuindo o resultado do response para o Product com a função setProduct
       setProduct(response.data);
     });
-  }, []);
+  }, [productId]);
 
   return (
     // row - bootstrap
