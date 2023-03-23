@@ -1,5 +1,6 @@
 import Navbar from 'components/Navbar';
 import Admin from 'pages/Admin';
+import Auth from 'pages/Admin/Auth';
 import Catalog from 'pages/Catalog';
 import Home from 'pages/Home';
 import ProductDetails from 'pages/ProductDetails';
@@ -19,6 +20,9 @@ const Routes = () => (
       </Route>
       <Route path="/products/:productId">
         <ProductDetails />
+      </Route>
+      <Route path="/admin/auth">
+        <Auth />
       </Route>
       {/* Redirecionamento - se cair na rota /admin vai para /admin/products */}
        {/* exact porque o admin está contido em outra rota */}
