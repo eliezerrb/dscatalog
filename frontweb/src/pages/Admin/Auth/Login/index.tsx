@@ -9,6 +9,7 @@ const Login = () => {
       <h1>LOGIN</h1>
       <form>
         {/*mb-4: Classe bootStrap margin botton 4 espaço abaixo para outro imput*/}
+        {/*form-control: Classe bootStrap que coloca borda no imput, largura 100% */}
         <div className="mb-4">
           <input
             type="text"
