@@ -1,17 +1,31 @@
 import { Link } from 'react-router-dom';
 import ButtonIcon from 'components/ButtonIcon';
+import { useForm } from 'react-hook-form';
 
 import './styles.css';
 
+type FormData = {
+  username : string;
+  password : string;
+}
+
 const Login = () => {
+  const { register, handleSubmit } = useForm<FormData>();
+
+  const onSubmit = (formData : FormData) => {
+    console.log(formData);
+  };
+
   return (
     <div className="base-card login-card">
       <h1>LOGIN</h1>
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         {/*mb-4: Classe bootStrap margin botton 4 espaço abaixo para outro imput*/}
         {/*form-control: Classe bootStrap que coloca borda no imput, largura 100% */}
         <div className="mb-4">
+          {/*Controlar pelo react hook "register" form (biblioteca) */}
           <input
+            {...register('username')}
             type="text"
             className="form-control base-input"
             placeholder="Email"
@@ -20,6 +34,7 @@ const Login = () => {
         </div>
         <div className="mb-2">
           <input
+            {...register('password')}
             type="password"
             className="form-control base-input "
             placeholder="Password"
