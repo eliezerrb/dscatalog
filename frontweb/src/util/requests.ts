@@ -20,7 +20,7 @@ type LoginData = {
 }
 
 export const requestBackendLogin = (loginData : LoginData) => {
-
+    // headers - tem que ser esse nome, pois é os parametros do Axios "AxiosRequestConfig"
     const headers = {
        'Content-Type': 'application/x-www-form-urlencoded',
        Authorization: 'Basic ' + window.btoa(CLIENT_ID + ':' + CLIENT_SECRET)
@@ -34,6 +34,7 @@ export const requestBackendLogin = (loginData : LoginData) => {
         grant_type : 'password'
     });
 
+    //  não precisa colocar a assim data: data (no javaScript quando o nome do atributo for igual a variavel ele já entende)
     return axios({method: 'POST', baseURL: BASE_URL, url:'oauth/token', data, headers});
 
 }
