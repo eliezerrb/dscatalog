@@ -14,7 +14,11 @@ type FormData = {
 const Login = () => {
   const [hasError, setHasError] = useState(false);
 
-  const { register, handleSubmit, formState: {errors} } = useForm<FormData>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
 
   const onSubmit = (formData: FormData) => {
     requestBackendLogin(formData)
@@ -41,7 +45,12 @@ const Login = () => {
           {/*Controlar pelo react hook "register" form (biblioteca) */}
           <input
             {...register('username', {
-              required: 'Campo obrigatório'
+              required: 'Campo obrigatório',
+              // pattern para informar uma expressão regular para validar e-mail, cpf e etc... */}
+              pattern: {
+                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                message: 'Email inválido',
+              },
             })}
             type="text"
             className="form-control base-input"
@@ -50,19 +59,23 @@ const Login = () => {
           />
           {/*invalid-feedback - Classe do bootstrap */}
           {/*d-block - Classe do bootstrap para ficar com o display block */}
-          <div className="invalid-feedback d-block">{errors.username?.message}</div>
+          <div className="invalid-feedback d-block">
+            {errors.username?.message}
+          </div>
         </div>
         <div className="mb-2">
           <input
             {...register('password', {
-              required: 'Campo obrigatório'
+              required: 'Campo obrigatório',
             })}
             type="password"
             className="form-control base-input "
             placeholder="Password"
             name="password"
           />
-          <div className="invalid-feedback d-block">{errors.password?.message}</div>
+          <div className="invalid-feedback d-block">
+            {errors.password?.message}
+          </div>
         </div>
         <Link to="/admin/auth/recover" className="login-link-recover">
           Esqueci a senha
