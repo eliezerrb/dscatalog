@@ -53,7 +53,10 @@ const Login = () => {
               },
             })}
             type="text"
-            className="form-control base-input"
+            // is-invalid - Estilo boot strap para a caixinha ficar vermelha quando for inválido
+            // `` para permitir colocar expressões do javascript dentro ${}
+            //  expressão condicional se errors.username for verdade inclui o is-invalid
+            className={`form-control base-input ${errors.username ? 'is-invalid' : ''}`}
             placeholder="Email"
             name="username"
           />
@@ -69,7 +72,7 @@ const Login = () => {
               required: 'Campo obrigatório',
             })}
             type="password"
-            className="form-control base-input "
+            className={`form-control base-input ${errors.password ? 'is-invalid' : ''}`}
             placeholder="Password"
             name="password"
           />
