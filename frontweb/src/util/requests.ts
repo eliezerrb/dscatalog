@@ -1,11 +1,23 @@
 import axios from 'axios';
 import qs from 'qs';
 
+
+type LoginResponse = {
+    access_token: string;
+    token_type: string;
+    expires_in: number;
+    scope: string;
+    userFirstName: string;
+    userId: number;
+}
+
 // process.env.REACT_APP_BACKEND_URL - configurar a váriavel de ambiente onde a aplicação vai rodar
 // process é do node, env(acessar onde a aplicação está rodando)
 // REACT_APP_BACKEND_URL - nome compativel com o netlify
 // ?? - operador de coalescência 
 export const BASE_URL = process.env.REACT_APP_BACKEND_URL ?? 'http://localhost:8080';
+
+const tokenKey = 'authData';
 
 
 // usado no login
@@ -37,4 +49,16 @@ export const requestBackendLogin = (loginData : LoginData) => {
     //  não precisa colocar a assim data: data (no javaScript quando o nome do atributo for igual a variavel ele já entende)
     return axios({method: 'POST', baseURL: BASE_URL, url:'oauth/token', data, headers});
 
+}
+
+// Função para alvar o LoginResponse
+export const saveAuthData = (obj : LoginResponse) => {
+    localStorage.setItem(tokenKey, JSON.stringify(obj));
+}
+
+export const getAuthData = () => {
+    // ?? "{} - se for null vai ter um obj vazio (string) no str
+    const str = localStorage.getItem(tokenKey) ?? "{}";
+    // converter de string para obj e garantindo que vai ser do tipo loginResponse (fazendo um casting com o as)
+    return JSON.parse(str) as LoginResponse;
 }
