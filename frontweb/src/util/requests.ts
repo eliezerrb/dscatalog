@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosRequestConfig } from 'axios';
 import qs from 'qs';
 
 
@@ -48,7 +48,10 @@ export const requestBackendLogin = (loginData : LoginData) => {
 
     //  não precisa colocar a assim data: data (no javaScript quando o nome do atributo for igual a variavel ele já entende)
     return axios({method: 'POST', baseURL: BASE_URL, url:'oauth/token', data, headers});
+}
 
+export const requestBackend = (config: AxiosRequestConfig) => {
+    return axios({...config, baseURL: BASE_URL});
 }
 
 // Função para alvar o LoginResponse
