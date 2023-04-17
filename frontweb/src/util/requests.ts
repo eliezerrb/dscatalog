@@ -125,3 +125,13 @@ export const getTokenData = () : TokenData | undefined => {
     return undefined;
   }
 }
+
+
+// Para testar se o usuário está autenticado 
+export const isAuthenticated = () : boolean => {
+  const tokenData = getTokenData();
+
+  // Se ele for undefined vai dar false devido ao &&
+  // Multipliquei por 1000, pois o Date.now() está em milisegundo e o tokenData.exp está em segundo
+  return (tokenData && tokenData.exp * 1000 > Date.now()) ? true : false;
+}
