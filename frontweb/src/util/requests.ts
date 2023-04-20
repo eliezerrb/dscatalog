@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode';
 
 type Role = 'ROLE_OPERATOR' | 'ROLE_ADMIN';
 
-type TokenData = {
+export type TokenData = {
   exp: number;
   user_name: string;
   authorities: Role[];
@@ -82,12 +82,18 @@ export const saveAuthData = (obj: LoginResponse) => {
   localStorage.setItem(tokenKey, JSON.stringify(obj));
 };
 
+// Função para obter
 export const getAuthData = () => {
   // ?? "{} - se for null vai ter um obj vazio (string) no str
   const str = localStorage.getItem(tokenKey) ?? '{}';
   // converter de string para obj e garantindo que vai ser do tipo loginResponse (fazendo um casting com o as)
   return JSON.parse(str) as LoginResponse;
 };
+
+// Função para remover
+export const removeAuthData = () => {
+  localStorage.removeItem(tokenKey);
+}
 
 
 // Add a request interceptor
