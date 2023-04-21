@@ -3,7 +3,6 @@ import ButtonIcon from 'components/ButtonIcon';
 import { Link } from 'react-router-dom';
 
 import './styles.css';
-import { hasAnyRoles } from 'util/requests';
 
 const Home = () => {
   return (
