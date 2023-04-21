@@ -141,3 +141,25 @@ export const isAuthenticated = () : boolean => {
   // Multipliquei por 1000, pois o Date.now() está em milisegundo e o tokenData.exp está em segundo
   return (tokenData && tokenData.exp * 1000 > Date.now()) ? true : false;
 }
+
+
+// Função que vai dizer se o usuário possui algum role(perfil) que eu passar de argumento
+export const hasAnyRoles = (roles: Role[]) : boolean => {
+
+  if (roles.length === 0){
+    return true;
+  }
+
+  const tokenData = getTokenData();
+
+  if(tokenData !== undefined) {
+    for (var i = 0; i < roles.length; i++) {
+      // Se o token do usuário tiver o role da posição que informei
+      if (tokenData.authorities.includes(roles[i])){
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
