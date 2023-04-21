@@ -153,12 +153,8 @@ export const hasAnyRoles = (roles: Role[]) : boolean => {
   const tokenData = getTokenData();
 
   if(tokenData !== undefined) {
-    for (var i = 0; i < roles.length; i++) {
-      // Se o token do usuário tiver o role da posição que informei
-      if (tokenData.authorities.includes(roles[i])){
-        return true;
-      }
-    }
+    // .some - função de alta rodem que testa se algum elemento da lista satisfaz o predicado
+    return roles.some(role => tokenData.authorities.includes(role));
   }
 
   return false;
