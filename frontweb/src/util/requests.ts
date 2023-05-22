@@ -12,7 +12,7 @@ export const BASE_URL =
 
 // usado no login
 const CLIENT_ID = process.env.REACT_APP_CLIENT_ID ?? 'dscatalog';
-const CLIENT_SECRET = process.env.REACT_APP_CLIENT_ID ?? 'dscatalog123';
+const CLIENT_SECRET = process.env.REACT_APP_CLIENT_SECRET ?? 'dscatalog123';
 
 // window.btoa - base64 javaScript para gerar o hash
 
@@ -40,7 +40,7 @@ export const requestBackendLogin = (loginData: LoginData) => {
   return axios({
     method: 'POST',
     baseURL: BASE_URL,
-    url: 'oauth/token',
+    url: '/oauth/token',
     data,
     headers,
   });
