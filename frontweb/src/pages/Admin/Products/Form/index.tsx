@@ -3,8 +3,11 @@ import './styles.css';
 import { Product } from 'types/product';
 import { requestBackend } from 'util/requests';
 import { AxiosRequestConfig } from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const Form = () => {
+  const history = useHistory();
+
   const {
     register,
     handleSubmit,
@@ -12,16 +15,27 @@ const Form = () => {
   } = useForm<Product>();
 
   const onSubmit = (formData: Product) => {
+    const data = {
+      ...formData,
+      imgUrl:
+        'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg',
+      categories: [{ id: 1, name: '' }],
+    };
+
     const config: AxiosRequestConfig = {
       method: 'POST',
       url: '/products',
-      data: formData,
+      data: data,
       withCredentials: true,
     };
 
     requestBackend(config).then((response) => {
       console.log(response.data);
     });
+  };
+
+  const handleCancel = () => {
+    history.push('/admin/products');
   };
 
   return (
@@ -54,26 +68,50 @@ const Form = () => {
                   {errors.name?.message}
                 </div>
               </div>
+
               <div className="margin-bottom-30">
-                <input type="text" className="form-control base-imput" />
-              </div>
-              <div>
-                <input type="text" className="form-control base-imput" />
+                <input
+                  {...register('price', {
+                    required: 'Campo obrigatório',
+                  })}
+                  type="text"
+                  className={`form-control base-input ${
+                    errors.price ? 'is-invalid' : ''
+                  }`}
+                  placeholder="Preço"
+                  name="price"
+                />
+
+                <div className="invalid-feedback d-block">
+                  {errors.price?.message}
+                </div>
               </div>
             </div>
             <div className="col-lg-6">
               <div>
                 {/*h-auto para utilizar o tamanho que eu passar no rows={10} */}
                 <textarea
-                  name=""
-                  className="form-control base-imput h-auto"
                   rows={10}
+                  {...register('description', {
+                    required: 'Campo obrigatório',
+                  })}
+                  className={`form-control base-input h-auto ${
+                    errors.description ? 'is-invalid' : ''
+                  }`}
+                  placeholder="Descrição"
+                  name="description"
                 />
+                <div className="invalid-feedback d-block">
+                  {errors.description?.message}
+                </div>
               </div>
             </div>
           </div>
           <div className="product-crud-buttons-container">
-            <button className="btn btn-outline-danger product-crud-button">
+            <button
+              className="btn btn-outline-danger product-crud-button"
+              onClick={handleCancel}
+            >
               CANCELAR
             </button>
             <button className="btn btn-primary product-crud-button text-white">
