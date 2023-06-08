@@ -21,16 +21,24 @@ const Form = () => {
               </div>
             </div>
             <div className="col-lg-6">
-              <textarea
-                rows={5}
-                className="form-control base-imput"
-              ></textarea>
+              <div>
+                {/*h-auto para utilizar o tamanho que eu passar no rows={10} */}
+                <textarea
+                  name=""
+                  className="form-control base-imput h-auto"
+                  rows={10}
+                />
+              </div>
             </div>
           </div>
           <div className="product-crud-buttons-container">
-              <button className="btn btn-outline-danger">CANCELAR</button>
-              <button className="btn btn-primary">SALVAR</button>
-            </div>
+            <button className="btn btn-outline-danger product-crud-button">
+              CANCELAR
+            </button>
+            <button className="btn btn-primary product-crud-button text-white">
+              SALVAR
+            </button>
+          </div>
         </form>
       </div>
     </div>
