@@ -9,14 +9,13 @@ import { requestBackend } from 'util/requests';
 
 type Props = {
   product: Product;
+  onDelete: Function;
 };
 
-const ProductCrudCard = ({ product }: Props) => {
-
+const ProductCrudCard = ({ product, onDelete }: Props) => {
   const handleDelete = (productId: number) => {
-
     // Se for falso não deleta !
-    if (!window.confirm("Tem certeza que deseja deletar")) {
+    if (!window.confirm('Tem certeza que deseja deletar')) {
       return;
     }
 
@@ -27,7 +26,8 @@ const ProductCrudCard = ({ product }: Props) => {
     };
 
     requestBackend(config).then(() => {
-      console.log('DELETADO ' + productId);
+      // chamar a função que foi passado no propert da chamada do metodo handleDelete que foi chamado no button delete
+      onDelete();
     });
   };
 
