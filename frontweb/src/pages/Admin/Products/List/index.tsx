@@ -6,6 +6,7 @@ import { SpringPage } from 'types/vendor/spring';
 import { Product } from 'types/product';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
+import Pagination from 'components/Pagination';
 
 const List = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
@@ -44,12 +45,16 @@ const List = () => {
       <div className="row">
         {page?.content.map((product) => (
           <div key={product.id} className="col-sm-6 col-md-12">
-            <ProductCrudCard product={product} 
-            // Para atualizar os produtos, após deletar, padrão observer
-            onDelete={() => getProducts()} />
+            <ProductCrudCard
+              product={product}
+              // Para atualizar os produtos, após deletar, padrão observer
+              onDelete={() => getProducts()}
+            />
           </div>
         ))}
       </div>
+
+      <Pagination />
     </div>
   );
 };
