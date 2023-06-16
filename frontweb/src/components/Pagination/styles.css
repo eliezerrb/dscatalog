@@ -24,13 +24,19 @@
   background-color: #407bff;
 }
 
+.pagination-link-active {
+  background-color: #407bff;
+}
+
 .arrow-previus {
   /* Virar a seta para esquerda */
   transform: rotate(-180deg);
+  color: #407bf4;
 }
 
 .arrow-next {
   margin-left: 10px;
+  color: #407bf4;
 }
 
 .arrow-inactive {

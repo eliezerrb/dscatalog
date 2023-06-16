@@ -10,8 +10,19 @@ const Pagination = () => {
       pageCount={10}
       pageRangeDisplayed={3}
       marginPagesDisplayed={1}
+      containerClassName="pagination-container"
+      pageLinkClassName="pagination-item"
+      breakClassName="pagination-item"
+      previousClassName="arrow-previus"
+      nextClassName="arrow-next"
+      activeLinkClassName="pagination-link-active"
+      disabledClassName="arrow-inactive"
+
+      previousLabel={<ArrowIcon />}
+      nextLabel={<ArrowIcon />}
     />  
 
+    {/* Sem componente e estatico - primeiro criado
     <div className="pagination-container">
       <ArrowIcon className="arrow-previus arrow-inactive" />
       <div className="pagination-item active">1</div>
@@ -21,6 +32,7 @@ const Pagination = () => {
       <div className="pagination-item">10</div>
       <ArrowIcon className="arrow-next arrow-active"/>
     </div>
+     */}
 
     </>
   );
