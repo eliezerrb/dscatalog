@@ -8,27 +8,40 @@ import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import Pagination from 'components/Pagination';
 
+// Guardar os dados dos componentes que controlam a listagem (Paginate e a busca) dados dos componentes de controle
+type ControlComponentsData = {
+  //número da página que está ativa, esse número vem do componente de paginção
+  activePage: number;
+};
+
 const List = () => {
   const [page, setPage] = useState<SpringPage<Product>>();
 
-  useEffect(() => {
-    getProducts(0);
-  }, []);
-
-  const getProducts = (pageNumber: number) => {
-    const config: AxiosRequestConfig = {
-      method: 'GET',
-      url: '/products',
-      params: {
-        page: pageNumber,
-        size: 3,
-      },
-    };
-
-    requestBackend(config).then((response) => {
-      setPage(response.data);
+  // Vai manter os dados de todos os camponentes que fazem o controle da listagem
+  const [controlComponentsData, setControlComponentsData] =
+    useState<ControlComponentsData>({
+      activePage: 0,
     });
-  };
+
+  
+  const handlePageChange = (pageNumber: number) => {
+    setControlComponentsData({activePage: pageNumber});
+  }
+  
+    useEffect(() => {
+      const config: AxiosRequestConfig = {
+        method: 'GET',
+        url: '/products',
+        params: {
+          page: controlComponentsData.activePage,
+          size: 3,
+        },
+      };
+  
+      requestBackend(config).then((response) => {
+        setPage(response.data);
+      });
+  }, [controlComponentsData]);
 
   return (
     <div className="product-crud-container">
@@ -49,16 +62,16 @@ const List = () => {
               product={product}
               // Para atualizar os produtos, após deletar, padrão observer
               // page.number é o número da página
-              onDelete={() => getProducts(page.number)}
+              onDelete={() => {}}
             />
           </div>
         ))}
       </div>
 
-      <Pagination 
-        pageCount={page ? page.totalPages : 0} 
-        range={3} 
-        OnChange={getProducts}
+      <Pagination
+        pageCount={page ? page.totalPages : 0}
+        range={3}
+        OnChange={handlePageChange}
       />
     </div>
   );
