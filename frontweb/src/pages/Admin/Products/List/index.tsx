@@ -7,6 +7,7 @@ import { Product } from 'types/product';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import Pagination from 'components/Pagination';
+import ProductFilter from 'components/ProductFilter';
 
 // Guardar os dados dos componentes que controlam a listagem (Paginate e a busca) dados dos componentes de controle
 type ControlComponentsData = {
@@ -59,7 +60,7 @@ const List = () => {
             ADICIONAR
           </button>
         </Link>
-        <div className="base-card product-filter-container">Search bar</div>
+       <ProductFilter />
       </div>
 
       <div className="row">
