@@ -1,7 +1,7 @@
 import ProductCrudCard from 'pages/Admin/Products/ProductCrudCard';
 import './styles.css';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { SpringPage } from 'types/vendor/spring';
 import { Product } from 'types/product';
 import { AxiosRequestConfig } from 'axios';
@@ -24,24 +24,31 @@ const List = () => {
     });
 
   
+  // Atualizando o estado que o componente paginate devolveu
   const handlePageChange = (pageNumber: number) => {
     setControlComponentsData({activePage: pageNumber});
   }
-  
-    useEffect(() => {
-      const config: AxiosRequestConfig = {
-        method: 'GET',
-        url: '/products',
-        params: {
-          page: controlComponentsData.activePage,
-          size: 3,
-        },
-      };
-  
-      requestBackend(config).then((response) => {
-        setPage(response.data);
-      });
+
+  // useCallback - se for a mesma referencia da função não chamado de novo - feito para evitar o loop infinito do getProducts
+  // dessa forma posso usar a função getProducts aproveitada em outros lugares como no delete
+  const getProducts = useCallback(() => {
+    const config: AxiosRequestConfig = {
+      method: 'GET',
+      url: '/products',
+      params: {
+        page: controlComponentsData.activePage,
+        size: 3,
+      },
+    };
+
+    requestBackend(config).then((response) => {
+      setPage(response.data);
+    });
   }, [controlComponentsData]);
+ 
+    useEffect(() => {
+      getProducts();
+  }, [getProducts]);
 
   return (
     <div className="product-crud-container">
@@ -62,7 +69,7 @@ const List = () => {
               product={product}
               // Para atualizar os produtos, após deletar, padrão observer
               // page.number é o número da página
-              onDelete={() => {}}
+              onDelete={getProducts}
             />
           </div>
         ))}
