@@ -1,3 +1,4 @@
+import { ReactComponent as SearchIcon } from 'assets/images/search-icon.svg';
 import './styles.css';
 
 const ProductFilter = () => {
@@ -9,7 +10,9 @@ const ProductFilter = () => {
             type="text"
             // form-control é do bootStrap
             className="form-control"
+            placeholder="Nome do produto"
           />
+          <SearchIcon />
         </div>
         <div className="product-filter-bottom-container">
           <div className="product-filter-category-container">
