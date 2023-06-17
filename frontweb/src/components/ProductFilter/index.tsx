@@ -12,13 +12,10 @@ type ProductFilterData = {
 };
 
 const ProductFilter = () => {
+  // Estado que armazena a lista de categorias buscada do backend
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
 
-  const {
-    register,
-    handleSubmit,
-    control,
-  } = useForm<ProductFilterData>();
+  const { register, handleSubmit, control } = useForm<ProductFilterData>();
 
   const onSubmit = (formData: ProductFilterData) => {
     console.log('Enviou', formData);
