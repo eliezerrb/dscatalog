@@ -60,7 +60,7 @@ const Catalog = () => {
           {isLoading ? <CardLoader /> : (
             page?.content.map((product) => (
             <div className="col-sm-6 col-lg-4 col-xl-3" key={product.id}>
-              <Link to="/products/1">
+              <Link to="/products/4">
                 <ProductCard product={product} />
               </Link>
             </div>
