@@ -7,12 +7,13 @@ import { Product } from 'types/product';
 import { AxiosRequestConfig } from 'axios';
 import { requestBackend } from 'util/requests';
 import Pagination from 'components/Pagination';
-import ProductFilter from 'components/ProductFilter';
+import ProductFilter, { ProductFilterData } from 'components/ProductFilter';
 
 // Guardar os dados dos componentes que controlam a listagem (Paginate e a busca) dados dos componentes de controle
 type ControlComponentsData = {
   //número da página que está ativa, esse número vem do componente de paginção
   activePage: number;
+  FilterData: ProductFilterData;
 };
 
 const List = () => {
@@ -22,13 +23,18 @@ const List = () => {
   const [controlComponentsData, setControlComponentsData] =
     useState<ControlComponentsData>({
       activePage: 0,
+      FilterData: { name: '', category: null },
     });
 
-  
   // Atualizando o estado que o componente paginate devolveu
   const handlePageChange = (pageNumber: number) => {
-    setControlComponentsData({activePage: pageNumber});
-  }
+    setControlComponentsData({ activePage: pageNumber, FilterData: controlComponentsData.FilterData });
+  };
+
+  // Quando alterar um filtro quero voltar para a primeira página
+  const handleSubmitFilter = (data: ProductFilterData) => {
+    setControlComponentsData({ activePage: 0, FilterData: data });
+  };
 
   // useCallback - se for a mesma referencia da função não chamado de novo - feito para evitar o loop infinito do getProducts
   // dessa forma posso usar a função getProducts aproveitada em outros lugares como no delete
@@ -39,6 +45,8 @@ const List = () => {
       params: {
         page: controlComponentsData.activePage,
         size: 3,
+        name: controlComponentsData.FilterData.name,
+        categoryId: controlComponentsData.FilterData.category?.id
       },
     };
 
@@ -46,9 +54,9 @@ const List = () => {
       setPage(response.data);
     });
   }, [controlComponentsData]);
- 
-    useEffect(() => {
-      getProducts();
+
+  useEffect(() => {
+    getProducts();
   }, [getProducts]);
 
   return (
@@ -60,7 +68,7 @@ const List = () => {
             ADICIONAR
           </button>
         </Link>
-       <ProductFilter />
+        <ProductFilter onSubmitFilter={handleSubmitFilter} />
       </div>
 
       <div className="row">
@@ -77,6 +85,7 @@ const List = () => {
       </div>
 
       <Pagination
+        forcePage={page?.number}
         pageCount={page ? page.totalPages : 0}
         range={3}
         OnChange={handlePageChange}

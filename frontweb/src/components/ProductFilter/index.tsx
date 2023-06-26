@@ -6,36 +6,42 @@ import Select from 'react-select';
 import { useEffect, useState } from 'react';
 import { requestBackend } from 'util/requests';
 
-type ProductFilterData = {
+export type ProductFilterData = {
   name: string;
   category: Category | null;
 };
 
-const ProductFilter = () => {
+// Meu componente de listagem vai poder escrever uma função neste evento quando a função rodar
+type Props = {
+  onSubmitFilter: (data: ProductFilterData) => void;
+};
+
+const ProductFilter = ({ onSubmitFilter }: Props) => {
   // Estado que armazena a lista de categorias buscada do backend
   const [selectCategories, setSelectCategories] = useState<Category[]>([]);
 
-  const { register, handleSubmit, setValue, getValues, control } = useForm<ProductFilterData>();
+  const { register, handleSubmit, setValue, getValues, control } =
+    useForm<ProductFilterData>();
 
   const onSubmit = (formData: ProductFilterData) => {
-    console.log('Enviou', formData);
+    onSubmitFilter(formData);
   };
 
   const handleFormClear = () => {
     setValue('name', '');
     setValue('category', null);
-  }
+  };
 
   const handleChangeCategory = (value: Category) => {
     setValue('category', value);
 
-    const obj : ProductFilterData = {
+    const obj: ProductFilterData = {
       name: getValues('name'),
-      category: getValues('category')
-    }
-    
-    console.log('Enviou', obj);
-  }
+      category: getValues('category'),
+    };
+
+    onSubmitFilter(obj);
+  };
 
   useEffect(() => {
     requestBackend({ url: '/categories' }).then((response) => {
@@ -74,17 +80,20 @@ const ProductFilter = () => {
                   isClearable
                   placeholder="Categoria"
                   classNamePrefix="product-filter-select"
-
                   // Value - valor que mudou (ele espera isso)
-                  onChange={value => handleChangeCategory(value as Category)}
-
+                  onChange={(value) => handleChangeCategory(value as Category)}
                   getOptionLabel={(category: Category) => category.name}
                   getOptionValue={(category: Category) => String(category.id)}
                 />
               )}
             />
           </div>
-          <button onClick={handleFormClear} className="btn btn-outline-secondary btn-product-filter-clear">LIMPAR<span className="btn-product-filter-word">FILTRO</span></button>
+          <button
+            onClick={handleFormClear}
+            className="btn btn-outline-secondary btn-product-filter-clear"
+          >
+            LIMPAR<span className="btn-product-filter-word">FILTRO</span>
+          </button>
         </div>
       </form>
     </div>

@@ -4,16 +4,18 @@ import './styles.css';
 import ReactPaginate from 'react-paginate';
 
 type Props = {
+  forcePage?: number;
   pageCount: number;
   range: number;
   // tipei para receber a função para ter o typeSafety, OnChange evento para disparar quando a página mudar
   OnChange?: (pageNumber: number) => void;
 }
 
-const Pagination = ( { pageCount, range, OnChange} : Props) => {
+const Pagination = ( { forcePage, pageCount, range, OnChange} : Props) => {
   return (
     <>
     <ReactPaginate
+      forcePage={forcePage}
       pageCount={pageCount}
       pageRangeDisplayed={range}
       marginPagesDisplayed={1}
