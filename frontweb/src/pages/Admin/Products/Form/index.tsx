@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import Select from 'react-select';
 import { Category } from 'types/category';
 import CurrencyInput from 'react-currency-input-field';
-import { ToastContainer, toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
 type UrlParams = {
   productId: string;
