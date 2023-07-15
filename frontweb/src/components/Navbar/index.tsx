@@ -1,5 +1,4 @@
 import './styles.css';
-import '@popperjs/core';
 import { AuthContext } from 'AuthContext';
 import 'bootstrap/js/src/collapse';
 import { useContext, useEffect } from 'react';
