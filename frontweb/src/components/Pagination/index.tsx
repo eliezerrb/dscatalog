@@ -13,7 +13,6 @@ type Props = {
 
 const Pagination = ( { forcePage, pageCount, range, OnChange} : Props) => {
   return (
-    <>
     <ReactPaginate
       forcePage={forcePage}
       pageCount={pageCount}
@@ -34,20 +33,6 @@ const Pagination = ( { forcePage, pageCount, range, OnChange} : Props) => {
       previousLabel={<div className="pagination-arrow-container"><ArrowIcon /></div>}
       nextLabel={<div className="pagination-arrow-container"><ArrowIcon /></div>}
     />  
-
-    {/* Sem componente e estatico - primeiro criado
-    <div className="pagination-container">
-      <ArrowIcon className="arrow-previus arrow-inactive" />
-      <div className="pagination-item active">1</div>
-      <div className="pagination-item">2</div>
-      <div className="pagination-item">3</div>
-      <div className="pagination-item">...</div>
-      <div className="pagination-item">10</div>
-      <ArrowIcon className="arrow-next arrow-active"/>
-    </div>
-     */}
-
-    </>
   );
 };
 
