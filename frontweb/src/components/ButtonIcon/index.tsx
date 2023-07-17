@@ -17,7 +17,8 @@ const ButtonIcon = ({ text }: Props) => {
         </button>
 
         <div className="btn-icon-container">
-          <ArrowIcon />
+          {/* data-testid - id unico para o teste automazado (encontrar o componente na hora de testar)*/}
+          <ArrowIcon data-testid="arrow" />
         </div>
       </div>
     </>
