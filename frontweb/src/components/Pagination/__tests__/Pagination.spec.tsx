@@ -1,5 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import Pagination from "..";
+import userEvent from "@testing-library/user-event";
 
 describe('Pagination tests', () => {
     test('should render pagination', () => {
@@ -38,5 +39,36 @@ describe('Pagination tests', () => {
         expect(page4).not.toBeInTheDocument();
 
     })
+
+
+    test('next arrow should call onChange', () => {
+
+        // Arrange
+        const pageCount = 3;
+        const range = 3;
+
+        //jest.fn() - cria um obj de mentira para simular um comportamente de evento (uma chamada de função)
+        const OnChange = jest.fn();
+
+        // ACT
+        render(
+            <Pagination
+                pageCount={pageCount}
+                range={range}
+                OnChange={OnChange}
+            />
+        );
+
+        const arrowNext = screen.getByTestId("arrow-next");
+
+        // Simular o clique no arrowNext que pegamos pelo data-testid
+        userEvent.click(arrowNext);
+
+        //ASSERT
+        // Verificando se o evento foi chamado com o parametro 1, pois a bolinha começa no 0 então a pagina 2 é o parametro 1
+        expect(OnChange).toHaveBeenCalledWith(1)
+
+    })
+
 })
 

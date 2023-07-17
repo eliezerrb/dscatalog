@@ -30,8 +30,8 @@ const Pagination = ( { forcePage, pageCount, range, OnChange} : Props) => {
       // itens.selected - número da pagina que mudou no ReactPaginate
       onPageChange={(itens) => (OnChange) ? OnChange(itens.selected) : {}}
 
-      previousLabel={<div className="pagination-arrow-container"><ArrowIcon /></div>}
-      nextLabel={<div className="pagination-arrow-container"><ArrowIcon /></div>}
+      previousLabel={<div className="pagination-arrow-container" data-testid="arrow-previous"><ArrowIcon /></div>}
+      nextLabel={<div className="pagination-arrow-container" data-testid="arrow-next"><ArrowIcon /></div>}
     />  
   );
 };
