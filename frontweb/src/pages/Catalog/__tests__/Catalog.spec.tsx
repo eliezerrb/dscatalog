@@ -2,6 +2,17 @@ import { render, screen, waitFor } from "@testing-library/react";
 import Catalog from "..";
 import { Router } from "react-router-dom";
 import history from 'util/history';
+import { server } from './fixtures';
+
+// antes de iniciar os testes desse arquivo
+beforeAll(() => server.listen());
+
+// depois de cada teste
+// garantir que os recursos foram zerados
+afterEach(() => server.resetHandlers);
+
+// depois que terminado todos os testes desse arquivo
+afterAll(() => server.close());
 
 test('should render Catalog with products', async () => {
 
