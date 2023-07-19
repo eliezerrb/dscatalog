@@ -116,6 +116,9 @@ const Form = () => {
               </div>
 
               <div className="margin-bottom-30">
+                {/*label só foi utilizado para pegar o conteudo do componente select no teste */}
+                {/*d-none - classe do bootStrap para não aparecer o texto Categorias do label*/}
+                <label htmlFor="categories" className="d-none">Categorias</label>
                 <Controller
                   name="categories"
                   rules={{ required: true }}
@@ -130,6 +133,7 @@ const Form = () => {
                       getOptionValue={(category: Category) =>
                         String(category.id)
                       }
+                      inputId="categories"
                     />
                   )}
                 />
