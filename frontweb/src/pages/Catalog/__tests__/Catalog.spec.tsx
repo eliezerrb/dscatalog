@@ -17,6 +17,7 @@ afterAll(() => server.close());
 test('should render Catalog with products', async () => {
 
     render(
+        // Router - é necessário quando seu componente que vai renderizar tenha algum componente do react router DOM, nesse caso o <LINK>
         <Router history={history}>
             <Catalog />
         </Router>
