@@ -106,6 +106,7 @@ const Form = () => {
                   }`}
                   placeholder="Nome do produto"
                   name="name"
+                  data-testid="name"
                 />
                 {/*invalid-feedback - Classe do bootstrap */}
                 {/*d-block - Classe do bootstrap para ficar com o display block */}
@@ -156,6 +157,7 @@ const Form = () => {
                       value={field.value}
                       // Evento de quando mudar a digitação do imput
                       onValueChange={field.onChange}
+                      data-testid="price"
                     />
                   )}
                 />
@@ -180,6 +182,7 @@ const Form = () => {
                   }`}
                   placeholder="Url da imagem do produto"
                   name="imgUrl"
+                  data-testid="imgUrl"
                 />
                 {/*invalid-feedback - Classe do bootstrap */}
                 {/*d-block - Classe do bootstrap para ficar com o display block */}
@@ -201,6 +204,7 @@ const Form = () => {
                   }`}
                   placeholder="Descrição"
                   name="description"
+                  data-testid="description"
                 />
                 <div className="invalid-feedback d-block">
                   {errors.description?.message}
