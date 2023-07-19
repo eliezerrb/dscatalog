@@ -1,17 +1,33 @@
 import { render, screen } from "@testing-library/react";
 import Form from "../Form";
-import { Router } from "react-router-dom";
+import { Router, useParams } from "react-router-dom";
 import history from 'util/history';
 
-test('should render form', () => {
+// ...jest.requireActual aproveitar tudo que já tem no react-router-dom
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom'),
+    useParams: jest.fn()
+}))
 
-    // ACT
-    render(
-        // Router - é necessário quando seu componente que vai renderizar tenha algum componente do react router DOM
-        <Router history={history}>
-            <Form />
-        </Router>
-    );
+describe('Product form create tests', () => {
 
-    screen.debug();
-})
+    beforeEach(() => {
+        (useParams as jest.Mock).mockReturnValue({
+            productId: 'create'
+        })
+    })
+
+    test('should render form', () => {
+
+        // ACT
+        render(
+            // Router - é necessário quando seu componente que vai renderizar tenha algum componente do react router DOM
+            <Router history={history}>
+                <Form />
+            </Router>
+        );
+    
+        screen.debug();
+    })
+});
+
