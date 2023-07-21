@@ -1,10 +1,11 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import Form from "../Form";
 import { Router, useParams } from "react-router-dom";
 import history from 'util/history';
 import userEvent from "@testing-library/user-event";
 import { server } from "./fixtures";
 import selectEvent from "react-select-event";
+import { ToastContainer } from 'react-toastify';
 
 
 // antes de iniciar os testes desse arquivo
@@ -37,30 +38,38 @@ describe('Product form create tests', () => {
         render(
             // Router - é necessário quando seu componente que vai renderizar tenha algum componente do react router DOM
             <Router history={history}>
+                 <ToastContainer />
                 <Form />
             </Router>
         );
-    
-       const nameInput = screen.getByTestId("name");
-       const priceInput = screen.getByTestId("price");
-       const imgUrlInput = screen.getByTestId("imgUrl");
-       const descriptionInput = screen.getByTestId("description");
-       const categoriesInput = screen.getByLabelText("Categorias");
-    
-       // screen.getByRole - papel que o elemente exerce no HTML estou pegando o botão
-       // /salvar/i - expressão regular para ignorar maiuscula e minuscula
-       const submitButton = screen.getByRole('button', {name: /salvar/i})
 
-       // Simular evento de digitação type(digitação) preechendo o formulário
-       await selectEvent.select(categoriesInput,['Eletrônicos', 'Computadores']);
-       userEvent.type(nameInput, 'Computador');
-       userEvent.type(priceInput, '5000.12');
-       userEvent.type(imgUrlInput, 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg');
-       userEvent.type(descriptionInput, 'Computador muito bom');
-        
-       // Simulando o clique no botão
-       userEvent.click(submitButton);
-     
+        const nameInput = screen.getByTestId("name");
+        const priceInput = screen.getByTestId("price");
+        const imgUrlInput = screen.getByTestId("imgUrl");
+        const descriptionInput = screen.getByTestId("description");
+        const categoriesInput = screen.getByLabelText("Categorias");
+
+        // screen.getByRole - papel que o elemente exerce no HTML estou pegando o botão
+        // /salvar/i - expressão regular para ignorar maiuscula e minuscula
+        const submitButton = screen.getByRole('button', { name: /salvar/i })
+
+        // Simular evento de digitação type(digitação) preechendo o formulário
+        await selectEvent.select(categoriesInput, ['Eletrônicos', 'Computadores']);
+        userEvent.type(nameInput, 'Computador');
+        userEvent.type(priceInput, '5000.12');
+        userEvent.type(imgUrlInput, 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg');
+        userEvent.type(descriptionInput, 'Computador muito bom');
+
+        // Simulando o clique no botão
+        userEvent.click(submitButton);
+
+        await waitFor(() => {
+            // Pegando o elemento HTML pelo texto, ou seja o toast de Produto cadastrado com sucesso
+            const toastElement = screen.getByText('Produto cadastrado com sucesso');
+            expect(toastElement).toBeInTheDocument();
+        });
+
+
     })
 });
 
