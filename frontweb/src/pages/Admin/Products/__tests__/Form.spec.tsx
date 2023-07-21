@@ -32,7 +32,7 @@ describe('Product form create tests', () => {
         })
     })
 
-    test('should render form', async () => {
+    test('should show toast and redirect when submit form correctly', async () => {
 
         // ACT
         render(
@@ -69,6 +69,9 @@ describe('Product form create tests', () => {
             expect(toastElement).toBeInTheDocument();
         });
 
+        // Não preciso colocar outro wait porque o teste já esperou uma tacada assincrona
+        // testando se o redirecionamento funcionou
+        expect(history.location.pathname).toEqual('/admin/products');
 
     })
 });
