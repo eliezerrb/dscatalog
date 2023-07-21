@@ -3,6 +3,19 @@ import Form from "../Form";
 import { Router, useParams } from "react-router-dom";
 import history from 'util/history';
 import userEvent from "@testing-library/user-event";
+import { server } from "./fixtures";
+import selectEvent from "react-select-event";
+
+
+// antes de iniciar os testes desse arquivo
+beforeAll(() => server.listen());
+
+// depois de cada teste
+// garantir que os recursos foram zerados
+afterEach(() => server.resetHandlers);
+
+// depois que terminado todos os testes desse arquivo
+afterAll(() => server.close());
 
 // ...jest.requireActual aproveitar tudo que já tem no react-router-dom
 jest.mock('react-router-dom', () => ({
@@ -18,7 +31,7 @@ describe('Product form create tests', () => {
         })
     })
 
-    test('should render form', () => {
+    test('should render form', async () => {
 
         // ACT
         render(
@@ -39,6 +52,8 @@ describe('Product form create tests', () => {
        userEvent.type(priceInput, '5000.12');
        userEvent.type(imgUrlInput, 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg');
        userEvent.type(descriptionInput, 'Computador muito bom');
+
+       await selectEvent.select(categoriesInput,['Eletrônicos', 'Computadores']);
      
     })
 });
