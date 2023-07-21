@@ -46,14 +46,20 @@ describe('Product form create tests', () => {
        const imgUrlInput = screen.getByTestId("imgUrl");
        const descriptionInput = screen.getByTestId("description");
        const categoriesInput = screen.getByLabelText("Categorias");
+    
+       // screen.getByRole - papel que o elemente exerce no HTML estou pegando o botão
+       // /salvar/i - expressão regular para ignorar maiuscula e minuscula
+       const submitButton = screen.getByRole('button', {name: /salvar/i})
 
-       // Simular evento de digitação type(digitação)
+       // Simular evento de digitação type(digitação) preechendo o formulário
+       await selectEvent.select(categoriesInput,['Eletrônicos', 'Computadores']);
        userEvent.type(nameInput, 'Computador');
        userEvent.type(priceInput, '5000.12');
        userEvent.type(imgUrlInput, 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg');
        userEvent.type(descriptionInput, 'Computador muito bom');
-
-       await selectEvent.select(categoriesInput,['Eletrônicos', 'Computadores']);
+        
+       // Simulando o clique no botão
+       userEvent.click(submitButton);
      
     })
 });
