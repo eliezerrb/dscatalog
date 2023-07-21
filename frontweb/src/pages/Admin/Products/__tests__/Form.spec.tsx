@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import Form from "../Form";
 import { Router, useParams } from "react-router-dom";
 import history from 'util/history';
+import userEvent from "@testing-library/user-event";
 
 // ...jest.requireActual aproveitar tudo que já tem no react-router-dom
 jest.mock('react-router-dom', () => ({
@@ -32,6 +33,12 @@ describe('Product form create tests', () => {
        const imgUrlInput = screen.getByTestId("imgUrl");
        const descriptionInput = screen.getByTestId("description");
        const categoriesInput = screen.getByLabelText("Categorias");
+
+       // Simular evento de digitação type(digitação)
+       userEvent.type(nameInput, 'Computador');
+       userEvent.type(priceInput, '5000.12');
+       userEvent.type(imgUrlInput, 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg');
+       userEvent.type(descriptionInput, 'Computador muito bom');
      
     })
 });
