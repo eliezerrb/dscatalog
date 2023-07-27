@@ -95,7 +95,6 @@ describe('Product form create tests', () => {
         });
     });
 
-
     test('should clear validation messages when filling out the form correctly', async () => {
 
         render(
@@ -157,12 +156,18 @@ describe('Product form update tests', () => {
             const priceInput = screen.getByTestId("price");
             const imgUrlInput = screen.getByTestId("imgUrl");
             const descriptionInput = screen.getByTestId("description");
+
+            const formElement = screen.getByTestId("form");
     
             // Testando valor do input preeenchido, verificando se no imput tem o valor que eu mockei no productResponse
             expect(nameInput).toHaveValue(productResponse.name);
             expect(priceInput).toHaveValue(String(productResponse.price));
             expect(imgUrlInput).toHaveValue(productResponse.imgUrl);
             expect(descriptionInput).toHaveValue(productResponse.description);
+
+            // Estou percorrendo a lista de categoria mockada e pegando o id
+            const ids = productResponse.categories.map(x => String(x.id));
+            expect(formElement).toHaveFormValues({categories: ids});
         })
 
         const submitButton = screen.getByRole('button', { name: /salvar/i})
@@ -176,6 +181,7 @@ describe('Product form update tests', () => {
             expect(toastElement).toBeInTheDocument();
         });
 
+        
         expect(history.location.pathname).toEqual('/admin/products');
  
     });
