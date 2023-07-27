@@ -3,7 +3,7 @@ import Form from "../Form";
 import { Router, useParams } from "react-router-dom";
 import history from 'util/history';
 import userEvent from "@testing-library/user-event";
-import { server } from "./fixtures";
+import { productResponse, server } from "./fixtures";
 import selectEvent from "react-select-event";
 import { ToastContainer } from 'react-toastify';
 
@@ -71,7 +71,7 @@ describe('Product form create tests', () => {
         // Não preciso colocar outro wait porque o teste já esperou uma tacada assincrona
         // testando se o redirecionamento funcionou
         expect(history.location.pathname).toEqual('/admin/products');
-    })
+    });
 
 
 
@@ -103,8 +103,8 @@ describe('Product form create tests', () => {
                 <Form />
             </Router>
         );
-
-        const submitButton = screen.getByRole('button', { name: /salvar/i })
+    
+        const submitButton = screen.getByRole('button', { name: /salvar/i})
 
         userEvent.click(submitButton);
 
@@ -112,7 +112,7 @@ describe('Product form create tests', () => {
             const messages = screen.getAllByText('Campo obrigatório');
             expect(messages).toHaveLength(5);
         });
-    
+
         const nameInput = screen.getByTestId("name");
         const priceInput = screen.getByTestId("price");
         const imgUrlInput = screen.getByTestId("imgUrl");
@@ -124,7 +124,7 @@ describe('Product form create tests', () => {
         userEvent.type(priceInput, '5000.12');
         userEvent.type(imgUrlInput, 'https://raw.githubusercontent.com/devsuperior/dscatalog-resources/master/backend/img/1-big.jpg');
         userEvent.type(descriptionInput, 'Computador muito bom');
-        
+
         await waitFor(() => {
             const messages = screen.queryAllByText('Campo obrigatório');
             expect(messages).toHaveLength(0);
@@ -132,3 +132,52 @@ describe('Product form create tests', () => {
     });
 });
 
+
+
+describe('Product form update tests', () => {
+
+    beforeEach(() => {
+        (useParams as jest.Mock).mockReturnValue({
+            productId: '2'
+        })
+    })
+
+    test('should show toast and redirect when submit form correctly', async () => {
+        // ACT
+        render(
+            // Router - é necessário quando seu componente que vai renderizar tenha algum componente do react router DOM
+            <Router history={history}>
+                <ToastContainer />
+                <Form />
+            </Router>
+        );
+
+        await waitFor(() => {
+            const nameInput = screen.getByTestId("name");
+            const priceInput = screen.getByTestId("price");
+            const imgUrlInput = screen.getByTestId("imgUrl");
+            const descriptionInput = screen.getByTestId("description");
+    
+            // Testando valor do input preeenchido, verificando se no imput tem o valor que eu mockei no productResponse
+            expect(nameInput).toHaveValue(productResponse.name);
+            expect(priceInput).toHaveValue(String(productResponse.price));
+            expect(imgUrlInput).toHaveValue(productResponse.imgUrl);
+            expect(descriptionInput).toHaveValue(productResponse.description);
+        })
+
+        const submitButton = screen.getByRole('button', { name: /salvar/i})
+
+        // Simulando o clique no botão
+        userEvent.click(submitButton);
+
+        await waitFor(() => {
+            // Pegando o elemento HTML pelo texto, ou seja o toast de Produto cadastrado com sucesso
+            const toastElement = screen.getByText('Produto cadastrado com sucesso');
+            expect(toastElement).toBeInTheDocument();
+        });
+
+        expect(history.location.pathname).toEqual('/admin/products');
+ 
+    });
+
+});
